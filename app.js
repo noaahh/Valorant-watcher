@@ -191,8 +191,13 @@ async function viewRandomPage(page, streamers) {
         }
 
         await clickWhenExist(page, sidebarQuery); //Open sidebar
+
+        // Fix for issue https://github.com/D3vl0per/Valorant-watcher/issues/37
         let status = await queryOnWebsite(page, userStatusQuery); //status jQuery
-        console.log('💡 Your account status:', status[0].children[0].data);
+        if (status[0] && status[0].children[0] && status[0].children[0].data) {
+            console.log('💡 Your account status:', status[0].children[0].data);
+        }
+
         await clickWhenExist(page, sidebarQuery); //Close sidebar
         console.log('💤 I\'ll watch this for ' + sleep / 60000 + ' minutes\n');
 
