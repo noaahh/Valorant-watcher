@@ -36,7 +36,8 @@ var browserConfig = {
       '--no-zygote',
       '--disable-gpu',
       '--no-sandbox',
-      '--disable-setuid-sandbox'
+      '--disable-setuid-sandbox',
+      '--window-size=240,135'
     ]
 };//https://github.com/D3vl0per/Valorant-watcher/issues/24
 
