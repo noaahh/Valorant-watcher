@@ -41,6 +41,10 @@ var browserConfig = {
     ]
 };//https://github.com/D3vl0per/Valorant-watcher/issues/24
 
+const playerSettingsQuery = 'button[data-a-target="player-settings-button"]';
+const playerSettingsQualityQuery = 'button[data-a-target="player-settings-menu-item-quality"]';
+const playerSettingsQuality160pQuery = 'div[class="tw-pd-05"]:last-child';
+
 const cookiePolicyQuery = 'button[data-a-target="consent-banner-accept"]';
 const matureContentQuery = 'button[data-a-target="player-overlay-mature-accept"]';
 const sidebarQuery = '*[data-test-selector="user-menu__toggle"]';
@@ -54,9 +58,8 @@ async function main(){
     console.clear();
     console.log("=========================");
 
-    var cookie = await readLoginData();
-
-    browser = await puppeteer.launch(browserConfig);
+    const cookie = await readLoginData();
+    let browser = await puppeteer.launch(browserConfig);
     const page = await browser.newPage();
 
     console.log('🔧 Set User-Agent');
@@ -181,7 +184,11 @@ async function viewRandomPage(page, streamers) {
 
         await page.keyboard.press('m'); //For unmute
 
-        if (browserScreenshot){
+        await clickWhenExist(page, playerSettingsQuery);
+        await clickWhenExist(page, playerSettingsQualityQuery);
+        await clickWhenExist(page, playerSettingsQuality160pQuery);
+
+        if (true){
           await page.waitFor(1000);
           fs.access(screenshotFolder, error => {
               if (error) {
@@ -256,11 +263,15 @@ async function clickWhenExist(page, query) {
   let result = await queryOnWebsite(page, query);
 
   try {
-    if (result[0].type == 'tag' && result[0].name == 'button'){
+    if (result[0].type == 'tag'){
       await page.click(query)
       await page.waitFor(500);
     }
   } catch (e) {}
+}
+
+async function setQuality(page) {
+    console.log(element);
 }
 
 
